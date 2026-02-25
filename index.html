@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Janarthanan F · Power Ranger Portfolio</title>
+    <!-- Google Fonts: bold futuristic font (Rajdhani + Orbitron for accents) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* -------------------- RESET & GLOBAL STYLES -------------------- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #0a0c0f;
+            font-family: 'Rajdhani', sans-serif;
+            color: #e0e0e0;
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* ----- energy particle canvas (background) ----- */
+        #energy-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+            background: radial-gradient(circle at 30% 40%, #1a1e2a, #030405);
+        }
+
+        /* ----- futuristic scrollbar ----- */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #12151f; }
+        ::-webkit-scrollbar-thumb { background: #f5c542; border-radius: 10px; box-shadow: 0 0 10px #f5c542; }
+
+        /* ----- TYPOGRAPHY ----- */
+        h1, h2, h3, .glowing-text {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 2rem;
+            text-transform: uppercase;
+            background: linear-gradient(135deg, #f5c542, #ff4d4d, #3b9eff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 15px #ff4d4d);
+        }
+
+        /* ----- NAVBAR (sticky transparent with energy glow underline) ----- */
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: center;
+            gap: 2.5rem;
+            padding: 1.2rem 2rem;
+            background: rgba(10, 12, 20, 0.75);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 77, 77, 0.3);
+            box-shadow: 0 0 25px rgba(255, 215, 0, 0.2);
+        }
+
+        .navbar a {
+            color: #ddd;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.3rem;
+            font-family: 'Orbitron', sans-serif;
+            padding: 0.3rem 0;
+            position: relative;
+            transition: 0.3s;
+            text-shadow: 0 0 5px currentColor;
+        }
+
+        .navbar a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0%;
+            height: 3px;
+            background: linear-gradient(90deg, #ff4d4d, #f5c542, #3b9eff);
+            box-shadow: 0 0 15px #ff9f4d;
+            transition: 0.3s ease;
+        }
+
+        .navbar a:hover {
+            color: white;
+            text-shadow: 0 0 15px #ff4d4d, 0 0 30px gold;
+        }
+        .navbar a:hover::after {
+            width: 100%;
+        }
+
+        /* ----- container & sections ----- */
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 2rem 2rem 4rem;
+        }
+
+        /* ----- HERO SECTION (cinematic) ----- */
+        .hero {
+            min-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero h1 {
+            font-size: 5rem;
+            font-weight: 900;
+            margin-bottom: 0.2rem;
+            animation: neonPulse 2s infinite alternate;
+            background: linear-gradient(45deg, #ff3131, #ffd966, #ffffff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 25px #ff4d4d) drop-shadow(0 0 45px gold);
+        }
+
+        @keyframes neonPulse {
+            0% { text-shadow: 0 0 10px red, 0 0 20px gold; }
+            100% { text-shadow: 0 0 25px #ff6666, 0 0 60px #ffd966; }
+        }
+
+        .typing-container {
+            font-size: 2rem;
+            font-weight: 600;
+            margin: 1rem 0;
+            min-height: 4rem;
+            color: #fff;
+            text-shadow: 0 0 10px cyan;
+        }
+
+        #typing-text {
+            border-right: 3px solid gold;
+            padding-right: 5px;
+            animation: blink 0.8s infinite;
+        }
+        @keyframes blink { 50% { border-color: transparent; } }
+
+        .moving-objective {
+            font-size: 1.6rem;
+            background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.2), transparent);
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            margin: 1.5rem 0;
+            white-space: nowrap;
+            overflow: hidden;
+            border: 1px solid rgba(255, 77, 77, 0.6);
+            box-shadow: 0 0 35px rgba(59, 158, 255, 0.4);
+            width: 100%;
+            animation: slideGlow 6s infinite alternate;
+        }
+        .moving-objective span {
+            display: inline-block;
+            animation: slideText 10s linear infinite;
+            font-weight: bold;
+            letter-spacing: 3px;
+        }
+        @keyframes slideText {
+            0% { transform: translateX(-20%); opacity: 0.8; }
+            50% { transform: translateX(20%); opacity: 1; text-shadow: 0 0 20px cyan; }
+            100% { transform: translateX(-20%); opacity: 0.8; }
+        }
+        @keyframes slideGlow {
+            0% { border-color: #ff4d4d; box-shadow: 0 0 30px red; }
+            50% { border-color: gold; box-shadow: 0 0 60px gold; }
+            100% { border-color: #3b9eff; box-shadow: 0 0 30px blue; }
+        }
+
+        .cta-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+        .ranger-btn {
+            background: transparent;
+            border: 2px solid;
+            padding: 0.8rem 2rem;
+            font-size: 1.2rem;
+            font-weight: bold;
+            font-family: 'Orbitron', sans-serif;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: 0.3s;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            box-shadow: 0 0 20px currentColor;
+        }
+        .ranger-btn:nth-child(1) { border-color: #ff4d4d; color: #ffb3b3; }   /* red */
+        .ranger-btn:nth-child(2) { border-color: #3b9eff; color: #b3d9ff; }   /* blue */
+        .ranger-btn:nth-child(3) { border-color: #ffd966; color: #fff2cc; }   /* gold */
+        .ranger-btn:nth-child(4) { border-color: #c0c0c0; color: #f0f0f0; }   /* silver */
+        .ranger-btn:hover {
+            background: currentColor;
+            color: black;
+            transform: scale(1.08);
+            border-color: white;
+            box-shadow: 0 0 45px white;
+        }
+
+        /* ----- power cards (about, projects) ----- */
+        .power-card {
+            background: rgba(0, 0, 0, 0.55);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 77, 77, 0.5);
+            border-radius: 40px;
+            padding: 2rem;
+            box-shadow: 0 0 40px rgba(255, 77, 77, 0.3);
+            transition: 0.3s;
+        }
+        .power-card:hover {
+            box-shadow: 0 0 70px #ff4d4d, 0 0 30px gold;
+            border-color: gold;
+        }
+
+        .about-inner {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            align-items: center;
+        }
+        .profile-frame {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            border: 4px solid gold;
+            box-shadow: 0 0 50px red;
+            background: #1e1e2f;
+            background-image: radial-gradient(circle at 30% 30%, #ffb347, #b30000);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: white;
+            text-transform: uppercase;
+        }
+        .profile-frame span { filter: drop-shadow(0 0 20px black); }
+
+        /* ----- skills power bars ----- */
+        .skill-item {
+            margin: 1.5rem 0;
+        }
+        .skill-header {
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+        }
+        .power-bar-bg {
+            width: 100%;
+            height: 30px;
+            background: #1c1f2b;
+            border-radius: 20px;
+            border: 1px solid;
+            overflow: hidden;
+            box-shadow: inset 0 0 20px black;
+        }
+        .power-bar-fill {
+            height: 100%;
+            width: 0%;
+            transition: width 1.5s cubic-bezier(0.2, 1.2, 0.8, 1);
+            box-shadow: 0 0 25px currentColor;
+        }
+        /* ranger colors for each skill */
+        .skill-html .power-bar-fill { background: #ff4d4d; }      /* red */
+        .skill-css .power-bar-fill { background: #3b9eff; }       /* blue */
+        .skill-js .power-bar-fill { background: #ffd966; }        /* gold */
+
+        .skill-html .power-bar-bg { border-color: #ff4d4d; }
+        .skill-css .power-bar-bg { border-color: #3b9eff; }
+        .skill-js .power-bar-bg { border-color: #ffd966; }
+
+        .power-percent {
+            font-family: 'Orbitron', sans-serif;
+            background: black;
+            padding: 0.2rem 1rem;
+            border-radius: 40px;
+            border: 1px solid gold;
+            box-shadow: 0 0 15px cyan;
+        }
+
+        /* ----- projects cards (3) ----- */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        .battle-card {
+            background: rgba(5, 5, 10, 0.7);
+            backdrop-filter: blur(8px);
+            border: 1px solid silver;
+            border-radius: 30px;
+            padding: 1.8rem;
+            transition: 0.3s;
+            box-shadow: 0 0 20px currentColor;
+            text-align: center;
+        }
+        .battle-card:nth-child(1) { box-shadow: 0 0 25px #ff4d4d; }
+        .battle-card:nth-child(2) { box-shadow: 0 0 25px #3b9eff; }
+        .battle-card:nth-child(3) { box-shadow: 0 0 25px #ffd966; }
+        .battle-card:hover {
+            transform: scale(1.05) translateY(-10px);
+            box-shadow: 0 0 80px gold, 0 0 40px white;
+            border-color: white;
+        }
+        .launch-btn {
+            background: transparent;
+            border: 1px solid white;
+            color: white;
+            padding: 0.6rem 2rem;
+            border-radius: 30px;
+            font-weight: bold;
+            margin-top: 1rem;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .launch-btn:hover {
+            background: white;
+            color: black;
+            box-shadow: 0 0 35px cyan;
+        }
+
+        /* ----- contact form glowing inputs ----- */
+        .glowing-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.8rem;
+            max-width: 700px;
+            margin: 2rem auto;
+        }
+        .glowing-input {
+            background: transparent;
+            border: 2px solid;
+            border-image: linear-gradient(45deg, red, gold, blue) 1;
+            padding: 1rem 1.5rem;
+            font-size: 1.2rem;
+            color: white;
+            border-radius: 60px;
+            outline: none;
+            transition: 0.3s;
+        }
+        .glowing-input:focus {
+            box-shadow: 0 0 40px #ff4d4d, 0 0 20px gold;
+            border-color: gold;
+        }
+        .pulse-btn {
+            background: transparent;
+            border: 3px solid gold;
+            padding: 1rem;
+            font-size: 2rem;
+            font-weight: bold;
+            color: gold;
+            border-radius: 60px;
+            cursor: pointer;
+            transition: 0.3s;
+            text-transform: uppercase;
+        }
+        .pulse-btn:hover {
+            animation: pulseGlow 1s infinite;
+            background: gold;
+            color: black;
+        }
+        @keyframes pulseGlow {
+            0% { box-shadow: 0 0 20px gold; }
+            50% { box-shadow: 0 0 70px gold, 0 0 120px red; }
+            100% { box-shadow: 0 0 20px gold; }
+        }
+
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            flex-wrap: wrap;
+            margin: 2rem 0;
+            font-size: 1.3rem;
+        }
+        .contact-info i { color: gold; margin-right: 0.3rem; }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            border-top: 1px solid #ff4d4d;
+            box-shadow: 0 -10px 30px rgba(255, 77, 77, 0.3);
+            background: rgba(0,0,0,0.5);
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #f5c542;
+            text-shadow: 0 0 20px red;
+        }
+
+        /* scroll reveal (fade + spark) */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.9s ease;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+            filter: drop-shadow(0 0 25px gold);
+        }
+
+        /* responsiveness */
+        @media (max-width: 700px) {
+            .navbar { gap: 1rem; flex-wrap: wrap; }
+            .hero h1 { font-size: 3.2rem; }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="energy-canvas"></canvas>
+
+    <!-- sticky navbar -->
+    <nav class="navbar">
+        <a href="#home">HOME</a>
+        <a href="#about">ABOUT</a>
+        <a href="#skills">SKILLS</a>
+        <a href="#projects">PROJECTS</a>
+        <a href="#contact">CONTACT</a>
+    </nav>
+
+    <main>
+        <!-- HERO section (home) -->
+        <section id="home" class="hero container">
+            <h1>JANARTHANAN F</h1>
+            <div class="typing-container">
+                <span id="typing-text"></span>
+            </div>
+            <div class="moving-objective"><span>⚡ MISSION: BUILD POWERFUL WEB EXPERIENCES ⚡</span></div>
+            <div class="cta-group">
+                <button class="ranger-btn" onclick="document.getElementById('about').scrollIntoView({behavior:'smooth'})">ACTIVATE ABOUT</button>
+                <button class="ranger-btn" onclick="document.getElementById('skills').scrollIntoView({behavior:'smooth'})">VIEW POWER SKILLS</button>
+                <button class="ranger-btn" onclick="document.getElementById('projects').scrollIntoView({behavior:'smooth'})">ENTER PROJECTS</button>
+                <button class="ranger-btn" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">CONTACT RANGER</button>
+            </div>
+        </section>
+
+        <!-- ABOUT section (power card) -->
+        <section id="about" class="container reveal">
+            <h2 class="section-title">⚡ RANGER PROFILE ⚡</h2>
+            <div class="power-card about-inner">
+                <div class="profile-frame"><span>JF</span></div>
+                <div style="flex:1">
+                    <p style="font-size:1.8rem;color:gold;">JANARTHANAN F · CODE WARRIOR</p>
+                    <p style="font-size:1.3rem;">🔥 Frontend developer from Chidambaram, with the heart of a digital ranger. I forge responsive, cinematic web experiences using pure HTML, CSS, JS. My energy flows in Red (passion), Blue (precision), Gold (innovation). Ready to defend the web with clean code. </p>
+                    <p style="margin-top:1rem;">📍 Chidambaram  |  📞 +91 9042288696  |  ✉️ justinjanarthanan281@gmail.com</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SKILLS section (power bars animated) -->
+        <section id="skills" class="container reveal">
+            <h2 class="section-title">💢 POWER LEVELS 💢</h2>
+            <div class="skill-item skill-html">
+                <div class="skill-header"><span>HTML</span><span class="power-percent" id="percent-html">0%</span></div>
+                <div class="power-bar-bg"><div class="power-bar-fill" id="bar-html" data-level="95"></div></div>
+            </div>
+            <div class="skill-item skill-css">
+                <div class="skill-header"><span>CSS</span><span class="power-percent" id="percent-css">0%</span></div>
+                <div class="power-bar-bg"><div class="power-bar-fill" id="bar-css" data-level="90"></div></div>
+            </div>
+            <div class="skill-item skill-js">
+                <div class="skill-header"><span>JavaScript</span><span class="power-percent" id="percent-js">0%</span></div>
+                <div class="power-bar-bg"><div class="power-bar-fill" id="bar-js" data-level="85"></div></div>
+            </div>
+        </section>
+
+        <!-- PROJECTS section (battle cards) -->
+        <section id="projects" class="container reveal">
+            <h2 class="section-title">🗲 PROJECTS ARMORY 🗲</h2>
+            <div class="projects-grid">
+                <div class="battle-card">
+                    <h3 style="color:#ff4d4d;">MEGAZORD LANDING</h3>
+                    <p>Ranger themed dashboard with energy particles. Fully responsive.</p>
+                    <p style="color:gold;">Tech: HTML, CSS, JS</p>
+                    <button class="launch-btn" onclick="alert('Launch mission!')">⚡ LAUNCH</button>
+                </div>
+                <div class="battle-card">
+                    <h3 style="color:#3b9eff;">CODE WARRIOR API</h3>
+                    <p>Interactive skill tree with power levels and animations.</p>
+                    <p style="color:gold;">Tech: CSS, JS (fetch)</p>
+                    <button class="launch-btn" onclick="alert('Enter code warrior!')">⚡ LAUNCH</button>
+                </div>
+                <div class="battle-card">
+                    <h3 style="color:#ffd966;">DIGITAL RANGER HUB</h3>
+                    <p>Cinematic portfolio with morphing grid & lightning bg.</p>
+                    <p style="color:gold;">Tech: HTML, CSS, canvas</p>
+                    <button class="launch-btn" onclick="alert('Power up!')">⚡ LAUNCH</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- CONTACT section with glowing form -->
+        <section id="contact" class="container reveal">
+            <h2 class="section-title">📡 CONTACT RANGER 📡</h2>
+            <div class="glowing-form">
+                <input type="text" placeholder="Ranger name" class="glowing-input">
+                <input type="email" placeholder="communication channel (email)" class="glowing-input">
+                <textarea placeholder="Mission details..." rows="3" class="glowing-input"></textarea>
+                <button class="pulse-btn">Send transmission</button>
+            </div>
+            <div class="contact-info">
+                <span><i>📞</i> 9042288696</span>
+                <span><i>✉️</i> justinjanarthanan281@gmail.com</span>
+                <span><i>🔗</i> linkedin.com/in/janarthanan-f</span>
+            </div>
+        </section>
+
+        <!-- Footer with glow -->
+        <footer>
+            <span>© 2025 JANARTHANAN F · POWER RANGER DASHBOARD · ALL RIGHTS RESERVED</span>
+        </footer>
+    </main>
+
+    <!-- JavaScript: typing animation, scroll reveal, skill counters, particle background -->
+    <script>
+        (function() {
+            // 1. TYPING ANIMATION (hero)
+            const typingEl = document.getElementById('typing-text');
+            const phrases = ['Frontend Developer', 'Code Warrior', 'Digital Ranger'];
+            let i = 0, j = 0, isDeleting = false;
+            function typeEffect() {
+                const current = phrases[i];
+                if (isDeleting) {
+                    typingEl.textContent = current.substring(0, j-1);
+                    j--;
+                } else {
+                    typingEl.textContent = current.substring(0, j+1);
+                    j++;
+                }
+                if (!isDeleting && j === current.length) {
+                    isDeleting = true;
+                    setTimeout(typeEffect, 1500);
+                } else if (isDeleting && j === 0) {
+                    isDeleting = false;
+                    i = (i + 1) % phrases.length;
+                    setTimeout(typeEffect, 300);
+                } else {
+                    setTimeout(typeEffect, isDeleting ? 80 : 120);
+                }
+            }
+            typeEffect();
+
+            // 2. ENERGY PARTICLE BACKGROUND (canvas)
+            const canvas = document.getElementById('energy-canvas');
+            const ctx = canvas.getContext('2d');
+            let w, h;
+            function resizeCanvas() {
+                w = canvas.width = window.innerWidth;
+                h = canvas.height = window.innerHeight;
+            }
+            window.addEventListener('resize', resizeCanvas);
+            resizeCanvas();
+
+            const particles = [];
+            for (let i = 0; i < 70; i++) {
+                particles.push({
+                    x: Math.random() * w,
+                    y: Math.random() * h,
+                    radius: Math.random() * 3 + 1,
+                    speedX: (Math.random() - 0.5) * 0.8,
+                    speedY: (Math.random() - 0.5) * 0.8,
+                    color: `rgba(${Math.random() > 0.5 ? '255,80,80' : '100,200,255'}, ${Math.random() * 0.6 + 0.2})`
+                });
+            }
+
+            function drawParticles() {
+                ctx.clearRect(0, 0, w, h);
+                for (let p of particles) {
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                    ctx.fillStyle = p.color;
+                    ctx.shadowColor = '#ffaa33';
+                    ctx.shadowBlur = 15;
+                    ctx.fill();
+                    // move
+                    p.x += p.speedX;
+                    p.y += p.speedY;
+                    if (p.x < 0 || p.x > w) p.speedX *= -1;
+                    if (p.y < 0 || p.y > h) p.speedY *= -1;
+                }
+                // lightning occasional flashes
+                if (Math.random() < 0.02) {
+                    ctx.fillStyle = 'rgba(255,255,200,0.12)';
+                    ctx.fillRect(0,0,w,h);
+                }
+                requestAnimationFrame(drawParticles);
+            }
+            drawParticles();
+
+            // 3. SCROLL REVEAL + SKILL COUNTERS (activate when skills visible)
+            const revealElements = document.querySelectorAll('.reveal');
+            const skillSection = document.getElementById('skills');
+            const barHtml = document.getElementById('bar-html');
+            const barCss = document.getElementById('bar-css');
+            const barJs = document.getElementById('bar-js');
+            const percentHtml = document.getElementById('percent-html');
+            const percentCss = document.getElementById('percent-css');
+            const percentJs = document.getElementById('percent-js');
+
+            let countersFired = false;
+
+            function fillSkillBars() {
+                if (countersFired) return;
+                countersFired = true;
+                const levels = [95, 90, 85];
+                const bars = [barHtml, barCss, barJs];
+                const percents = [percentHtml, percentCss, percentJs];
+                bars.forEach((bar, idx) => {
+                    let level = levels[idx];
+                    let width = 0;
+                    let interval = setInterval(() => {
+                        if (width >= level) {
+                            clearInterval(interval);
+                        } else {
+                            width++;
+                            bar.style.width = width + '%';
+                            percents[idx].innerText = width + '%';
+                        }
+                    }, 15);
+                });
+            }
+
+            function resetSkills() { // optional, but we want once
+                if (barHtml.style.width !== '') {
+                    barHtml.style.width = '0%';
+                    barCss.style.width = '0%';
+                    barJs.style.width = '0%';
+                    percentHtml.innerText = '0%';
+                    percentCss.innerText = '0%';
+                    percentJs.innerText = '0%';
+                    countersFired = false;
+                }
+            }
+
+            // reveal observer
+            function checkReveal() {
+                let skillsVisible = false;
+                revealElements.forEach(el => {
+                    const rect = el.getBoundingClientRect();
+                    const isVisible = rect.top < window.innerHeight - 100 && rect.bottom > 100;
+                    if (isVisible) {
+                        el.classList.add('active');
+                        if (el.id === 'skills') skillsVisible = true;
+                    } else {
+                        // optional: remove class if you want, but we keep active permanent
+                    }
+                });
+                if (skillsVisible && !countersFired) {
+                    fillSkillBars();
+                }
+            }
+
+            window.addEventListener('scroll', checkReveal);
+            window.addEventListener('load', () => {
+                checkReveal();
+                // if skills not yet triggered (e.g., already visible)
+                setTimeout(checkReveal, 200);
+            });
+
+            // extra: smooth scroll for all anchor links
+            document.querySelectorAll('.navbar a').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const id = this.getAttribute('href').substring(1);
+                    document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+                });
+            });
+        })();
+    </script>
+</body>
+</html>
